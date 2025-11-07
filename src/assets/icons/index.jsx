@@ -46,6 +46,74 @@ import usersIcon from '@/assets/icons/users.svg'
 import cogIcon from '@/assets/icons/cog.svg'
 import notificationIcon from '@/assets/icons/notification.svg'
 import logoutSideIcon from '@/assets/icons/logoutSide.svg'
+import dashboardPrimIcon from '@/assets/icons/dashboardPrim.svg'
+import requestPrimIcon from '@/assets/icons/requestPrim.svg'
+import messagePrimIcon from '@/assets/icons/messagePrim.svg'
+import analyticPrimIcon from '@/assets/icons/analyticPrim.svg'
+import usersPrimIcon from '@/assets/icons/usersPrim.svg'
+import cogPrimIcon from '@/assets/icons/cogPrim.svg'
+
+export const CogPrimIcon = ({ size, className = '' }) => (
+  <img
+    src={cogPrimIcon}
+    alt="cogPrimIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const UsersPrimIcon = ({ size, className = '' }) => (
+  <img
+    src={usersPrimIcon}
+    alt="usersPrimIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const AnalyticPrimIcon = ({ size, className = '' }) => (
+  <img
+    src={analyticPrimIcon}
+    alt="analyticPrimIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+
+export const MessagePrimIcon = ({ size, className = '' }) => (
+  <img
+    src={messagePrimIcon}
+    alt="messagePrimIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const RequestPrimIcon = ({ size, className = '' }) => (
+  <img
+    src={requestPrimIcon}
+    alt="requestPrimIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const DashboardPrimIcon = ({ size, className = '' }) => (
+  <img
+    src={dashboardPrimIcon}
+    alt="dashboardPrimIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
 
 export const LogoutSideIcon = ({ size, className = '' }) => (
   <img
@@ -56,6 +124,7 @@ export const LogoutSideIcon = ({ size, className = '' }) => (
     className={className}
   />
 )
+
 export const NotificationIcon = ({ size, className = '' }) => (
   <img
     src={notificationIcon}

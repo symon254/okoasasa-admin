@@ -10,25 +10,61 @@ import {
 } from 'lucide-react'
 import {
   AnalyticIcon,
+  AnalyticPrimIcon,
   CogIcon,
+  CogPrimIcon,
   DashboardIcon,
+  DashboardPrimIcon,
   LogoIcon,
   LogoutSideIcon,
   MessageIcon,
+  MessagePrimIcon,
   RequestIcon,
+  RequestPrimIcon,
   UsersIcon,
+  UsersPrimIcon,
 } from '@/assets/icons'
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState('Dashboard')
 
   const menuItems = [
-    { icon: DashboardIcon, label: 'Dashboard', color: 'text-orange-500' },
-    { icon: RequestIcon, label: 'Requests', color: 'text-gray-600' },
-    { icon: MessageIcon, label: 'Messaging', color: 'text-gray-600' },
-    { icon: AnalyticIcon, label: 'Analytics', color: 'text-gray-600' },
-    { icon: UsersIcon, label: 'User Management', color: 'text-gray-600' },
-    { icon: CogIcon, label: 'Settings', color: 'text-gray-600' },
+    {
+      firstIcon: DashboardPrimIcon,
+      secondIcon: DashboardIcon,
+      label: 'Dashboard',
+      color: 'text-orange-500',
+    },
+    {
+      firstIcon: RequestIcon,
+      secondIcon: RequestPrimIcon,
+      label: 'Requests',
+      color: 'text-gray-600',
+    },
+    {
+      firstIcon: MessageIcon,
+      secondIcon: MessagePrimIcon,
+      label: 'Messaging',
+      color: 'text-gray-600',
+    },
+    {
+      firstIcon: AnalyticIcon,
+      secondIcon: AnalyticPrimIcon,
+      label: 'Analytics',
+      color: 'text-gray-600',
+    },
+    {
+      firstIcon: UsersIcon,
+      secondIcon: UsersPrimIcon,
+      label: 'User Management',
+      color: 'text-gray-600',
+    },
+    {
+      firstIcon: CogIcon,
+      secondIcon: CogPrimIcon,
+      label: 'Settings',
+      color: 'text-gray-600',
+    },
   ]
 
   return (
@@ -42,8 +78,8 @@ const Sidebar = () => {
       <nav className="flex-1 mt-2 p-4">
         <ul className="space-y-2">
           {menuItems.map((item) => {
-            const Icon = item.icon
             const isActive = activeItem === item.label
+            const Icon = isActive ? item.secondIcon : item.firstIcon
 
             return (
               <li key={item.label}>
