@@ -1,14 +1,5 @@
 import React from 'react'
-import { Link } from '@tanstack/react-router'
-import {
-  Home,
-  FileText,
-  MessageSquare,
-  BarChart3,
-  Users,
-  Settings,
-  LogOut,
-} from 'lucide-react'
+import { Link, useLocation } from '@tanstack/react-router'
 import {
   AnalyticIcon,
   AnalyticPrimIcon,
@@ -25,10 +16,9 @@ import {
   UsersIcon,
   UsersPrimIcon,
 } from '@/assets/icons'
-import { useStateContext } from '@/context/state-context'
 
 const Sidebar = () => {
-  const { activeItem, setActiveItem } = useStateContext()
+  const location = useLocation()
 
   const menuItems = [
     {
@@ -86,14 +76,14 @@ const Sidebar = () => {
       <nav className="flex-1 mt-2 p-4">
         <ul className="space-y-2">
           {menuItems.map((item) => {
-            const isActive = activeItem === item.label
+            // Check if current path starts with the menu item path
+            const isActive = location.pathname.startsWith(item.path)
             const Icon = isActive ? item.secondIcon : item.firstIcon
 
             return (
               <li key={item.label}>
                 <Link
                   to={item.path}
-                  onClick={() => setActiveItem(item.label)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                     isActive
                       ? 'bg-orange-50 text-primary'

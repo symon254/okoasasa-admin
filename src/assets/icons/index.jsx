@@ -52,6 +52,17 @@ import messagePrimIcon from '@/assets/icons/messagePrim.svg'
 import analyticPrimIcon from '@/assets/icons/analyticPrim.svg'
 import usersPrimIcon from '@/assets/icons/usersPrim.svg'
 import cogPrimIcon from '@/assets/icons/cogPrim.svg'
+import loginLogo from '@/assets/icons/loginLogo.svg'
+
+export const LoginLogo = ({ size, className = '' }) => (
+  <img
+    src={loginLogo}
+    alt="loginLogo"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
 
 export const CogPrimIcon = ({ size, className = '' }) => (
   <img
