@@ -1,5 +1,5 @@
 // src/components/Header.jsx
-import { Link, } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { Search, X } from 'lucide-react'
 import { useStateContext } from '@/context/state-context'
 import { cn } from '@/lib/utils'
@@ -9,9 +9,8 @@ import { Button } from '@/components/ui/button'
 import logo from '@/assets/images/primaryLogoHorizontal.png'
 
 export function Header() {
-  const { cartCount, getCartCount, searchTerm, setSearchTerm } =
+  const { activeItem, cartCount, getCartCount, searchTerm, setSearchTerm } =
     useStateContext()
-
 
   const cartItems = typeof cartCount === 'number' ? cartCount : getCartCount()
 
@@ -25,24 +24,18 @@ export function Header() {
       {/* === DESKTOP HEADER === */}
       <div className="hidden lg:flex items-center justify-between mx-auto px-4 sm:px-5 md:px-6 lg:px-8 xl:px-12 py-5 lg:py-6">
         <div>
-         Dashboard 
-       </div>
+          <label>{activeItem}</label>
+        </div>
 
         {/* Search Bar */}
-        <div className="flex-1 mx-4 lg:mx-6 xl:mx-8 max-w-[500px] lg:max-w-[600px] xl:max-w-[690px]">
-         
-        </div>
+        <div className="flex-1 mx-4 lg:mx-6 xl:mx-8 max-w-[500px] lg:max-w-[600px] xl:max-w-[690px]"></div>
 
         {/* Cart + User */}
         <div className="flex items-center gap-4 lg:gap-4 xl:gap-4">
-             <div className=" cursor-pointer w-11 h-11 p-3 border rounded-full bg-brand-bg-2">
-              <NotificationIcon
-                className="h-5 w-5"
-                strokeWidth={1.5}
-              />
-             
-            </div>
-         
+          <div className=" cursor-pointer w-11 h-11 p-3 border rounded-full bg-brand-bg-2">
+            <NotificationIcon className="h-5 w-5" strokeWidth={1.5} />
+          </div>
+
           {/* Desktop */}
           <UserDropdown />
         </div>

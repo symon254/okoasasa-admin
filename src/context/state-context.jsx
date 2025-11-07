@@ -35,6 +35,8 @@ export function ContextProvider({ children }) {
   )
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState(null)
+  const [activeItem, setActiveItem] = useState('Dashboard')
+
   const [cart, setCart] = useState(initialCart)
   const [products, setProducts] = useState(initialProducts)
   const [searchTerm, setSearchTermState] = useState('')
@@ -202,7 +204,10 @@ export function ContextProvider({ children }) {
                 ? { ...item, quantity: clampedQuantity }
                 : item,
             )
-          : [...prevCart, { productId: normalizedId, quantity: clampedQuantity }]
+          : [
+              ...prevCart,
+              { productId: normalizedId, quantity: clampedQuantity },
+            ]
 
         syncProductCartState(normalizedId, {
           inCart: true,
@@ -243,9 +248,7 @@ export function ContextProvider({ children }) {
     (productId) => {
       const normalizedId = normalizeProductId(productId)
       if (
-        cart.some(
-          (item) => normalizeProductId(item.productId) === normalizedId,
-        )
+        cart.some((item) => normalizeProductId(item.productId) === normalizedId)
       ) {
         removeFromCart(productId)
       } else {
@@ -294,10 +297,8 @@ export function ContextProvider({ children }) {
         const targetId = String(item.productId)
         const product = products.find((p) => {
           if (!p) return false
-          const idMatch =
-            p.id !== undefined && String(p.id) === targetId
-          const skuMatch =
-            p.sku !== undefined && String(p.sku) === targetId
+          const idMatch = p.id !== undefined && String(p.id) === targetId
+          const skuMatch = p.sku !== undefined && String(p.sku) === targetId
           return idMatch || skuMatch
         })
 
@@ -396,6 +397,8 @@ export function ContextProvider({ children }) {
     setIsCheckoutCompleted,
     resetCheckout,
     goToCheckoutStep,
+    activeItem,
+    setActiveItem,
   }
 
   return <StateContext.Provider value={value}>{children}</StateContext.Provider>

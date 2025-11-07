@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Link } from '@tanstack/react-router'
 import {
   Home,
   FileText,
@@ -24,45 +25,52 @@ import {
   UsersIcon,
   UsersPrimIcon,
 } from '@/assets/icons'
+import { useStateContext } from '@/context/state-context'
 
 const Sidebar = () => {
-  const [activeItem, setActiveItem] = useState('Dashboard')
+  const { activeItem, setActiveItem } = useStateContext()
 
   const menuItems = [
     {
       firstIcon: DashboardPrimIcon,
       secondIcon: DashboardIcon,
       label: 'Dashboard',
-      color: 'text-orange-500',
+      path: '/dashboard',
+      color: 'text-gray-600',
     },
     {
       firstIcon: RequestIcon,
       secondIcon: RequestPrimIcon,
       label: 'Requests',
+      path: '/request',
       color: 'text-gray-600',
     },
     {
       firstIcon: MessageIcon,
       secondIcon: MessagePrimIcon,
       label: 'Messaging',
+      path: '/messaging',
       color: 'text-gray-600',
     },
     {
       firstIcon: AnalyticIcon,
       secondIcon: AnalyticPrimIcon,
       label: 'Analytics',
+      path: '/analytics',
       color: 'text-gray-600',
     },
     {
       firstIcon: UsersIcon,
       secondIcon: UsersPrimIcon,
       label: 'User Management',
+      path: '/users',
       color: 'text-gray-600',
     },
     {
       firstIcon: CogIcon,
       secondIcon: CogPrimIcon,
       label: 'Settings',
+      path: '/settings',
       color: 'text-gray-600',
     },
   ]
@@ -83,19 +91,20 @@ const Sidebar = () => {
 
             return (
               <li key={item.label}>
-                <button
+                <Link
+                  to={item.path}
                   onClick={() => setActiveItem(item.label)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-orange-50 text-orange-500'
+                      ? 'bg-orange-50 text-primary'
                       : 'text-gray-600 hover:bg-gray-50'
                   }`}
                 >
                   <Icon
-                    className={`w-5 h-5 ${isActive ? 'text-orange-500' : 'text-gray-500'}`}
+                    className={`w-5 h-5 ${isActive ? 'text-primary' : 'text-gray-500'}`}
                   />
                   <span className="text-sm font-medium">{item.label}</span>
-                </button>
+                </Link>
               </li>
             )
           })}
