@@ -14,7 +14,7 @@ export default function Layout() {
       {/* Main content area on the right */}
       <div className="flex flex-col flex-1 min-h-screen">
         <Header />
-        <main className="flex-1 w-full">
+        <main className="flex-1 p-6 w-full">
           <Outlet />
         </main>
       </div>

@@ -20,11 +20,13 @@ export function Header() {
   }
 
   return (
-    <header className="w-full h-20 border-b border-[#E8ECF4] bg-white">
+    <header className="w-full h-20 px-6 py-6 border-b border-[#E8ECF4] bg-white">
       {/* === DESKTOP HEADER === */}
-      <div className="hidden lg:flex items-center justify-between mx-auto px-4 sm:px-5 md:px-6 lg:px-8 xl:px-12 py-5 lg:py-6">
+      <div className="hidden lg:flex items-center justify-between ">
         <div>
-          <label>{activeItem}</label>
+          <label className="text-2xl font-semibold leading-[140%] capitalize text-black font-['Public_Sans']">
+            {activeItem}
+          </label>
         </div>
 
         {/* Search Bar */}
