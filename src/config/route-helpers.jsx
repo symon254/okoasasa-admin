@@ -74,7 +74,9 @@ export function RootLayout() {
 export function ProtectedLayout() {
   return (
     <ProtectedRoute>
+     <Layout>
       <Outlet />
+    </Layout>
     </ProtectedRoute>
   )
 }
