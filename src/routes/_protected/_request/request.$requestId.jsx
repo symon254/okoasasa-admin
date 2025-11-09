@@ -14,9 +14,6 @@ import {
 } from '@/assets/icons'
 import { InfoIcon } from 'lucide-react'
 import React from 'react'
-export const Route = createFileRoute('/_protected/_request/request/$requestId')({
-  component: RouteComponent,
-})
 
 const devicesData = [
   {
@@ -784,6 +781,8 @@ function RouteComponent() {
   const [activeTab, setActiveTab] = React.useState(0)
   // const form = useForm({})
 
+  const { requestId } = Route.useParams()
+
   const tabs = [
     { label: 'Customer & Device', component: <CustomerDeviceTab /> },
     { label: 'KYC Documents', component: <KYCDocumentsTab /> },
@@ -797,7 +796,7 @@ function RouteComponent() {
         <div className="flex gap-4 w-full p-[9px]">
           <div>
             <label className="w-[83px] h-7 font-semibold text-xl leading-[140%] capitalize text-black">
-              REQ-001
+              {requestId}
             </label>
           </div>
           <div className="flex flex-row justify-center items-center px-3 py-2 gap-2 w-[71px] h-6 bg-orange-500/8 rounded-full">
@@ -964,3 +963,8 @@ function RouteComponent() {
   )
 }
 
+export const Route = createFileRoute('/_protected/_request/request/$requestId')(
+  {
+    component: RouteComponent,
+  },
+)

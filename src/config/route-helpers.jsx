@@ -48,7 +48,10 @@ export function ProtectedRoute({ children }) {
   if (!isAuthenticated) {
     return (
       <>
-        <AuthDialogWrapper open={showAuthDialog} onOpenChange={handleAuthDialogClose} />
+        <AuthDialogWrapper
+          open={showAuthDialog}
+          onOpenChange={handleAuthDialogClose}
+        />
       </>
     )
   }
@@ -74,9 +77,7 @@ export function RootLayout() {
 export function ProtectedLayout() {
   return (
     <ProtectedRoute>
-     <Layout>
-      <Outlet />
-    </Layout>
+      <Layout />
     </ProtectedRoute>
   )
 }

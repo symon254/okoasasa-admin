@@ -64,6 +64,167 @@ import downloadFileIcon from '@/assets/icons/download.svg'
 import percIcon from '@/assets/icons/percent.svg'
 import calendarIcon from '@/assets/icons/calendar.svg'
 import dollarRoundedIcon from '@/assets/icons/dollarRounded.svg'
+import upIcon from '@/assets/icons/up.svg'
+import downIcon from '@/assets/icons/down.svg'
+import boxCheckIcon from '@/assets/icons/boxCheck.svg'
+import trashXIcon from '@/assets/icons/trashX.svg'
+import tickCircleIcon from '@/assets/icons/tickCircle.svg'
+import calendarPrimIcon from '@/assets/icons/calendarPrim.svg'
+import arrowRightIcon from '@/assets/icons/arrowRight.svg'
+import exportIcon from '@/assets/icons/export.svg'
+import listCheckIcon from '@/assets/icons/listCheck.svg'
+import gridIcon from '@/assets/icons/grid.svg'
+import refreshIcon from '@/assets/icons/refresh.svg'
+import sortIcon from '@/assets/icons/sort.svg'
+import editPenIcon from '@/assets/icons/editPen.svg'
+import trashRedIcon from '@/assets/icons/trashRed.svg'
+import eyeSecIcon from '@/assets/icons/eyeSec.svg'
+
+export const EyeSecIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={eyeSecIcon}
+    alt="eyeSecIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const TrashRedIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={trashRedIcon}
+    alt="trashRedIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+export const EditPenIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={editPenIcon}
+    alt="editPenIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+export const SortIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={sortIcon}
+    alt="sortIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const RefreshIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={refreshIcon}
+    alt="refreshIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+
+export const GridIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={gridIcon}
+    alt="gridIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const ListCheckIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={listCheckIcon}
+    alt="listCheckIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+export const ExportIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={exportIcon}
+    alt="exportIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const ArrowRightIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={arrowRightIcon}
+    alt="arrowRightIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+export const CalendarPrimIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={calendarPrimIcon}
+    alt="calendarPrimIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+export const TickCircleIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={tickCircleIcon}
+    alt="tickCircleIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const TrashXIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={trashXIcon}
+    alt="trashXIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const BoxCheckIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={boxCheckIcon}
+    alt="boxCheckIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const DownIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={downIcon}
+    alt="downIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const UpIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={upIcon}
+    alt="upIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
 
 export const DollarRoundedIcon = ({ size = 24, className = '' }) => (
   <img
