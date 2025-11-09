@@ -16,6 +16,7 @@ export function FormInput({
   type = 'text',
   icon: Icon,
   className = '',
+  labelClassName='',
   disabled = false,
   numbersOnly = false,
 }) {
@@ -32,13 +33,13 @@ export function FormInput({
       render={({ field, fieldState }) => (
         <FormItem className="relative">
           <div className="flex flex-col">
-            <FormLabel className="text-sm mb-[3px] font-medium text-gray-900">
+            <FormLabel className={`text-sm mb-[3px] font-medium text-gray-900 ${labelClassName}`}>
               {label}
             </FormLabel>
             <FormControl>
               <div className="relative">
                 {Icon && (
-                  <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Icon className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 `} />
                 )}
                 <Input
                   type={type}

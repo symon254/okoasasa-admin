@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { LoginLogo } from '@/assets/icons'
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -61,14 +61,14 @@ function OtpPage() {
   const onSubmit = async (data) => {
     try {
       console.log('OTP verification attempted', data)
-      
+
       // Handle OTP verification logic here
       // Example: Make API call to verify OTP
       // const response = await verifyOTP(data.otp)
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       // If successful, redirect to dashboard
       navigate({ to: '/dashboard' })
     } catch (error) {
@@ -79,20 +79,20 @@ function OtpPage() {
 
   const handleResendOTP = async () => {
     setIsResending(true)
-    
+
     try {
       // Make API call to resend OTP
       console.log('Resending OTP...')
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       // Reset countdown after successful resend
       setCountdown(60)
-      
+
       // Clear the OTP input
       form.setValue('otp', '')
-      
+
       console.log('OTP resent successfully')
     } catch (error) {
       console.error('Failed to resend OTP:', error)
@@ -142,12 +142,12 @@ function OtpPage() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-5"
                 >
-                  <div>
+                  <div className="flex justify-center items-center my-8">
                     <FormField
                       control={control}
                       name="otp"
                       render={({ field }) => (
-                        <FormItem className="flex flex-col gap-3 w-full">
+                        <FormItem className="flex flex-col gap-3 w-[344px]">
                           <FormControl>
                             <InputOTP
                               inputMode="numeric"
@@ -166,9 +166,9 @@ function OtpPage() {
                                     key={index}
                                     index={index}
                                     className={cn(
-                                      'flex h-[48px] w-10 sm:w-10 md:h-[50px] md:w-[60px] items-center justify-center rounded-[12px] sm:rounded-[10px] md:rounded-[12px]',
+                                      'flex h-11 w-11  items-center justify-center rounded-[12px] sm:rounded-[10px] md:rounded-[12px]',
                                       'shrink-0 first:rounded-[12px] first:rounded-l-[12px] last:rounded-[12px] last:rounded-r-[12px]',
-                                      'flex-1 max-w-[44px] sm:max-w-[48px] md:max-w-none',
+                                      'flex-1 max-w-11 sm:max-w-11 md:max-w-none',
                                       'border border-[#E8ECF4] bg-[#F9FAFB] text-base sm:text-lg font-medium leading-[1.4] font-["Public_Sans"] text-[#252525]',
                                       'placeholder:text-[#A0A4AC] transition-colors focus:border-[#F8971D] focus:ring-2 focus:ring-[#F8971D]/20 focus:outline-none',
                                     )}
@@ -183,8 +183,8 @@ function OtpPage() {
                     />
                   </div>
                   <div>
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       className="w-full rounded-4xl"
                       disabled={formState.isSubmitting}
                     >
@@ -192,7 +192,7 @@ function OtpPage() {
                     </Button>
                   </div>
                   <div>
-                    <div className="flex items-center justify-center gap-3 w-full flex-wrap">
+                    <div className="flex items-center justify-center my-6 gap-3 w-full flex-wrap">
                       <span className="text-[#252525] text-sm font-normal leading-[140%] font-['Public_Sans']">
                         Didn't Receive the code?
                       </span>
@@ -211,6 +211,13 @@ function OtpPage() {
                           {isResending ? 'Resending...' : 'Resend Code'}
                         </button>
                       )}
+                    </div>
+                    <div className="flex items-center justify-center gap-3 w-full flex-wrap">
+                      <Link to="/">
+                        <span className="text-sm cursor-pointer font-medium leading-[140%] capitalize font-['Public_Sans'] bg-linear-to-b from-[#F8971D] to-[#EE3124] bg-clip-text text-transparent">
+                          Back to Login
+                        </span>
+                      </Link>
                     </div>
                   </div>
                 </form>

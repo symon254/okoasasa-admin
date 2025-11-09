@@ -39,7 +39,7 @@ import { cn } from '@/lib/utils'
 import {} from 'lucide-react'
 import DynamicChart from './Charts/Dyanamic'
 import DonutChart from './Charts/Donut'
-import { useDashboardStats } from '@/lib/queries/dashboard'
+// import { useDashboardStats } from '@/lib/queries/dashboard'
 
 // Mock Data matching your screenshot exactly
 const stats = {
@@ -165,10 +165,10 @@ const StatCard = ({ title, value, change, icon: Icon, color }) => (
 )
 
 export default function Dashboard() {
-  const { data: apiResponse, isLoading } = useDashboardStats()
-  console.log("API Response in Dashboard Component:", apiResponse);
-  const data = apiResponse?.data
-  const stats = data?.rows || []
+  // const { data: apiResponse, isLoading } = useDashboardStats()
+  // console.log("API Response in Dashboard Component:", apiResponse);
+  // const data = apiResponse?.data
+  // const stats = data?.rows || []
   return (
     <div className="min-h-screen ">
       {/* Header */}

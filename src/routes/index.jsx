@@ -30,14 +30,14 @@ function IndexPage() {
   const onSubmit = async (data) => {
     try {
       console.log('Login attempted', { ...data, rememberMe })
-      
+
       // Handle login logic here
       // Example: Make API call to authenticate user
       // const response = await loginUser(data)
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       // If successful, redirect to OTP page
       navigate({ to: '/otpPage' })
     } catch (error) {
@@ -84,11 +84,12 @@ function IndexPage() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-5"
+                  className="space-y-6"
                 >
                   <div>
                     <FormInput
                       control={form.control}
+                      labelClassName={`mb-[9px]`}
                       name="email"
                       label="Email"
                       placeholder="Enter your email"
@@ -101,6 +102,7 @@ function IndexPage() {
                       <FormInput
                         control={form.control}
                         name="password"
+                        labelClassName={`mb-[9px]`}
                         label="Password"
                         placeholder="Enter your password"
                         type={showPassword ? 'text' : 'password'}
@@ -141,8 +143,8 @@ function IndexPage() {
                     </div>
                   </div>
                   <div>
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       className="w-full rounded-4xl"
                       disabled={form.formState.isSubmitting}
                     >

@@ -19,7 +19,6 @@ import {
 
 const Sidebar = () => {
   const location = useLocation()
-
   const menuItems = [
     {
       firstIcon: DashboardPrimIcon,
@@ -64,22 +63,20 @@ const Sidebar = () => {
       color: 'text-gray-600',
     },
   ]
-
+  
   return (
-    <div className="w-64 min-h-screen bg-white border-r border-gray-200 flex flex-col">
+    <div className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col">
       {/* Logo */}
-      <div className="p-6 flex justify-center border-b h-20 border-gray-100">
-        <LogoIcon className="" />
+      <div className="p-6 flex justify-center border-b h-20 border-gray-100 flex-shrink-0">
+        <LogoIcon />
       </div>
-
-      {/* Menu Items */}
-      <nav className="flex-1 mt-2 p-4">
+      
+      {/* Menu Items - scrollable if many items */}
+      <nav className="flex-1 mt-2 p-4 overflow-y-auto">
         <ul className="space-y-2">
           {menuItems.map((item) => {
-            // Check if current path starts with the menu item path
             const isActive = location.pathname.startsWith(item.path)
             const Icon = isActive ? item.secondIcon : item.firstIcon
-
             return (
               <li key={item.label}>
                 <Link
@@ -100,10 +97,9 @@ const Sidebar = () => {
           })}
         </ul>
       </nav>
-
-      {/* Logout */}
-      <div className="p-4 border-gray-100">
-        <div className="my-4 -mt-4 border-t"></div>
+      
+      {/* Logout - always at bottom */}
+      <div className="p-4 border-t border-gray-100 shrink-0">
         <button className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors">
           <LogoutSideIcon className="w-5 h-5" />
           <span className="text-sm font-medium">Logout</span>

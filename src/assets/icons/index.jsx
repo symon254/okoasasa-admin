@@ -53,6 +53,126 @@ import analyticPrimIcon from '@/assets/icons/analyticPrim.svg'
 import usersPrimIcon from '@/assets/icons/usersPrim.svg'
 import cogPrimIcon from '@/assets/icons/cogPrim.svg'
 import loginLogo from '@/assets/icons/loginLogo.svg'
+import sendIcon from '@/assets/icons/send.svg'
+import tickIcon from '@/assets/icons/tick.svg'
+import infoIcon from '@/assets/icons/info.svg'
+import cancelIcon from '@/assets/icons/cancel.svg'
+import sendMsgIcon from '@/assets/icons/sendMsg.svg'
+import fileKYCIcon from '@/assets/icons/fileKYC.svg'
+import eyeIcon from '@/assets/icons/eye.svg'
+import downloadFileIcon from '@/assets/icons/download.svg'
+import percIcon from '@/assets/icons/percent.svg'
+import calendarIcon from '@/assets/icons/calendar.svg'
+import dollarRoundedIcon from '@/assets/icons/dollarRounded.svg'
+
+export const DollarRoundedIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={dollarRoundedIcon}
+    alt="dollarRoundedIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const CalendarIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={calendarIcon}
+    alt="calendarIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const PercIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={percIcon}
+    alt="percIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const DownloadFileIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={downloadFileIcon}
+    alt="downloadFileIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const EyeIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={eyeIcon}
+    alt="eyeIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+export const FileKYCIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={fileKYCIcon}
+    alt="fileKYCIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const SendMsgIcon = ({ size, className = '' }) => (
+  <img
+    src={sendMsgIcon}
+    alt="sendMsgIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const CancelIcon = ({ size, className = '' }) => (
+  <img
+    src={cancelIcon}
+    alt="cancelIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const InfoIcon = ({ size, className = '' }) => (
+  <img
+    src={infoIcon}
+    alt="infoIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const TickIcon = ({ size, className = '' }) => (
+  <img
+    src={tickIcon}
+    alt="tickIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const SendIcon = ({ size, className = '' }) => (
+  <img
+    src={sendIcon}
+    alt="sendIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
 
 export const LoginLogo = ({ size, className = '' }) => (
   <img
@@ -94,7 +214,6 @@ export const AnalyticPrimIcon = ({ size, className = '' }) => (
   />
 )
 
-
 export const MessagePrimIcon = ({ size, className = '' }) => (
   <img
     src={messagePrimIcon}
@@ -124,7 +243,6 @@ export const DashboardPrimIcon = ({ size, className = '' }) => (
     className={className}
   />
 )
-
 
 export const LogoutSideIcon = ({ size, className = '' }) => (
   <img
@@ -173,7 +291,6 @@ export const AnalyticIcon = ({ size, className = '' }) => (
     className={className}
   />
 )
-
 
 export const MessageIcon = ({ size, className = '' }) => (
   <img
