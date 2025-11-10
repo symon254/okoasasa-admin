@@ -1,17 +1,20 @@
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { NotFound } from '@/assets/icons'
 
 export default function ProtectedNotFound() {
   return (
     <div className="flex min-h-[65vh] flex-col items-center justify-center px-5 py-8 text-foreground">
       {/* 404 Illustration */}
       <div className="mb-8 flex w-full max-w-[650px] items-center justify-center">
-        <img
+        {/* <img
           src="/404.png"
           alt="404 Error - Page not Found"
           className="h-auto w-full max-w-[334px] lg:max-w-[650px]"
-        />
+        /> */}
+        <NotFound/>
+       
       </div>
 
       {/* Error Message */}
@@ -24,7 +27,7 @@ export default function ProtectedNotFound() {
         </p>
 
         {/* Back to Dashboard Button */}
-        <Link to="/" className="w-full lg:w-auto">
+        <Link to="/dashboard" className="w-full lg:w-auto">
           <Button
             variant="gradient"
             className={cn(
@@ -33,7 +36,7 @@ export default function ProtectedNotFound() {
               `text-white font-medium text-base leading-[140%] capitalize shadow-sm hover:opacity-90 transition-all font-["Public_Sans"]`,
             )}
           >
-            Back to home
+            Back home
           </Button>
         </Link>
       </div>

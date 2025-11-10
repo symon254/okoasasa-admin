@@ -79,6 +79,17 @@ import sortIcon from '@/assets/icons/sort.svg'
 import editPenIcon from '@/assets/icons/editPen.svg'
 import trashRedIcon from '@/assets/icons/trashRed.svg'
 import eyeSecIcon from '@/assets/icons/eyeSec.svg'
+import notFound from '@/assets/icons/404.svg'
+
+export const NotFound = ({ size, className = '' }) => (
+  <img
+    src={notFound}
+    alt="notFound"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
 
 export const EyeSecIcon = ({ size = 24, className = '' }) => (
   <img
