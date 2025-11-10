@@ -12,8 +12,19 @@ import {
   SendMsgIcon,
   TickIcon,
 } from '@/assets/icons'
-import { InfoIcon } from 'lucide-react'
+import { Info, InfoIcon, X } from 'lucide-react'
 import React from 'react'
+import { useForm } from 'react-hook-form'
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
+import ApproveLoanDialog from '@/components/shared/Requests/ApproveRequest'
+import DeclineLoanDialog from '@/components/shared/Requests/DeclineRequest'
 
 const devicesData = [
   {
@@ -78,38 +89,6 @@ const devicesData = [
     deliveryOption: 'Pickup Point',
     condition: 'Refurbished',
     image: '/product.png',
-  },
-]
-const documents = [
-  {
-    id: 1,
-    name: 'ID Card (Front)',
-    uploadedDate: '2024-01-15',
-    status: 'verified',
-  },
-  {
-    id: 2,
-    name: 'ID Card (Back)',
-    uploadedDate: '2024-01-15',
-    status: 'verified',
-  },
-  {
-    id: 3,
-    name: 'Payslip',
-    uploadedDate: '2024-01-15',
-    status: 'pending',
-  },
-  {
-    id: 4,
-    name: 'Payslip',
-    uploadedDate: '2024-01-15',
-    status: 'pending',
-  },
-  {
-    id: 5,
-    name: 'Payslip',
-    uploadedDate: '2024-01-15',
-    status: 'pending',
   },
 ]
 
@@ -313,6 +292,199 @@ const timelineData = [
   },
 ]
 
+const RequestInfoModal = ({ isOpen, onClose, onSubmit }) => {
+  const [selectedTemplate, setSelectedTemplate] = React.useState('')
+  // const [customMessage, setCustomMessage] = React.useState('')
+
+  const form = useForm({
+    defaultValues: {
+      message: '',
+    },
+  })
+
+  const customMessage = form.watch('message')
+
+  const templates = [
+    {
+      id: 'employment',
+      title: 'Employment Verification',
+      description:
+        'Dear customer, we need additional employment verification documents. Please provide your latest payslips and employment letter within 48 hours.',
+    },
+    {
+      id: 'income',
+      title: 'Income Documentation',
+      description:
+        'Dear customer, please provide additional income documentation including bank statements for the last 3 months to complete your application.',
+    },
+    {
+      id: 'identity',
+      title: 'Identity Verification',
+      description:
+        'Dear customer, we need clearer copies of your identification documents. Please provide high-quality scans of both sides of your ID.',
+    },
+    {
+      id: 'device',
+      title: 'Device Information',
+      description:
+        'Dear customer, please provide additional device information including IMEI number and purchase receipt to verify your selection.',
+    },
+    {
+      id: 'custom',
+      title: 'Custom Message',
+      description: '',
+    },
+  ]
+
+  const handleTemplateSelect = (templateId) => {
+    setSelectedTemplate(templateId)
+    const template = templates.find((t) => t.id === templateId)
+    if (template && templateId !== 'custom') {
+      form.setValue('message', template.description)
+    } else {
+      form.setValue('message', '')
+    }
+  }
+
+  const handleSubmit = () => {
+    const message = form.getValues('message')
+    if (message.trim()) {
+      onSubmit(message)
+      onClose()
+      setSelectedTemplate('')
+      form.reset()
+    }
+  }
+
+  const handleCancel = () => {
+    onClose()
+    setSelectedTemplate('')
+    form.reset()
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center  bg-black/50">
+      <div className="bg-white rounded-2xl w-full max-w-[640px] max-h-[90vh] overflow-hidden shadow-xl">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Request Additional Information
+          </h2>
+          <button
+            onClick={handleCancel}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <X size={24} />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
+          {/* Select Template Section */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-900 mb-3">
+              Select Template
+            </label>
+            <div className="space-y-2">
+              {templates.map((template) => (
+                <div
+                  key={template.id}
+                  onClick={() => handleTemplateSelect(template.id)}
+                  className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                    selectedTemplate === template.id
+                      ? 'border-orange-500 bg-orange-50'
+                      : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  <h3 className="font-medium text-base text-gray-900 mb-1">
+                    {template.title}
+                  </h3>
+                  {template.description && (
+                    <p className="text-sm text-gray-500 line-clamp-2">
+                      {template.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Message Section */}
+          <div className="mb-6">
+            <Form {...form}>
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-gray-900">
+                      Message
+                    </FormLabel>
+                    <FormControl>
+                      <textarea
+                        {...field}
+                        placeholder="Enter your message to the customer..."
+                        maxLength={500}
+                        rows={4}
+                        className={` bg-gray-50 p-2 resize-none transition-all duration-150 w-full px-4 py-3 border border-gray-200 rounded-lg text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:ring-opacity-20  min-h-[100px] max-h-[200px] overflow-y-auto `}
+                        style={{ overflow: 'hidden', height: 'auto' }}
+                        onInput={(e) => {
+                          e.target.style.height = 'auto'
+                          e.target.style.height =
+                            Math.min(e.target.scrollHeight, 200) + 'px'
+                        }}
+                      />
+                    </FormControl>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-sm text-gray-500">
+                        {field.value?.length || 0}/500 characters
+                      </span>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </Form>
+          </div>
+          {/* Info Banner */}
+          <div className="flex gap-3 p-4 bg-brand-bg-2 rounded-lg ">
+            <Info size={20} className="text-black shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <h4 className="font-medium text-sm text-gray-900 mb-1">
+                Information Request
+              </h4>
+              <p className="text-sm text-gray-600">
+                This message will be sent to the customer via SMS and email.
+                They will receive instructions on how to submit the requested
+                information.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end gap-3 p-6 border-t border-gray-200">
+          <button
+            onClick={handleCancel}
+            className="px-6 py-2.5 border border-gray-300 rounded-full text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={!customMessage.trim()}
+            className="px-6 py-2.5 bg-gradient-to-b from-[#F8971D] to-[#EE3124] rounded-full text-white font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Send Request
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const DeviceCard = ({ device }) => {
   const conditionStyles = {
     'Brand New': 'bg-[#DBEAFE] text-[#1E40AF]',
@@ -417,6 +589,370 @@ const KPICard = ({ label, value, valueColor = 'text-black', badge = null }) => {
       ) : (
         <p className={`text-2xl font-semibold ${valueColor}`}>{value}</p>
       )}
+    </div>
+  )
+}
+
+// Document Upload Modal Component
+const DocumentUploadModal = ({ isOpen, onClose, onUpload, documentName }) => {
+  const [selectedFile, setSelectedFile] = React.useState(null)
+  const [isDragging, setIsDragging] = React.useState(false)
+  const [filePreview, setFilePreview] = React.useState(null)
+
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  const handleDragLeave = (e) => {
+    e.preventDefault()
+    setIsDragging(false)
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+    setIsDragging(false)
+    const files = e.dataTransfer.files
+    if (files.length > 0) {
+      handleFileSelection(files[0])
+    }
+  }
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      handleFileSelection(file)
+    }
+  }
+
+  const handleFileSelection = (file) => {
+    setSelectedFile(file)
+
+    // Create preview for images
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setFilePreview({
+          type: 'image',
+          url: e.target.result,
+        })
+      }
+      reader.readAsDataURL(file)
+    } else if (file.type === 'application/pdf') {
+      setFilePreview({
+        type: 'pdf',
+        url: URL.createObjectURL(file),
+      })
+    } else {
+      setFilePreview(null)
+    }
+  }
+
+  const handleUpload = () => {
+    if (selectedFile) {
+      // Simulate upload process
+      console.log('Uploading file:', selectedFile.name)
+      onUpload(selectedFile, filePreview)
+      onClose()
+      setSelectedFile(null)
+      setFilePreview(null)
+    }
+  }
+
+  const handleCancel = () => {
+    setSelectedFile(null)
+    setFilePreview(null)
+    onClose()
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-2xl max-w-2xl w-full p-6">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Upload {documentName}
+          </h2>
+          <button
+            onClick={handleCancel}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <X size={24} />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6">
+          {/* Upload Section */}
+          <div className="space-y-6">
+            {/* Upload and Preview Side by Side */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Upload Section */}
+              <div>
+                <h3 className="text-sm font-medium text-gray-900 mb-3">
+                  Upload File
+                </h3>
+                {/* Drag & Drop Area */}
+                <div
+                  className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors h-48 flex items-center justify-center ${
+                    isDragging
+                      ? 'border-orange-500 bg-orange-50'
+                      : 'border-gray-300 hover:border-gray-400'
+                  }`}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => document.getElementById('file-input').click()}
+                >
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                      <FileKYCIcon />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 mb-1">
+                        {selectedFile
+                          ? selectedFile.name
+                          : 'Drop your file here or click to browse'}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Supports PDF, JPG, PNG (Max 10MB)
+                      </p>
+                    </div>
+                  </div>
+                  <input
+                    id="file-input"
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileSelect}
+                    accept=".pdf,.jpg,.jpeg,.png"
+                  />
+                </div>
+              </div>
+
+              {/* Preview Section */}
+              <div>
+                <h3 className="text-sm font-medium text-gray-900 mb-3">
+                  Preview
+                </h3>
+                <div className="border rounded-lg h-48 flex items-center justify-center bg-gray-50">
+                  {filePreview ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center p-4">
+                      {filePreview.type === 'image' ? (
+                        <img
+                          src={filePreview.url}
+                          alt="Preview"
+                          className="max-h-32 max-w-full object-contain"
+                        />
+                      ) : filePreview.type === 'pdf' ? (
+                        <div className="text-center">
+                          <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <FileKYCIcon />
+                          </div>
+                          <p className="text-sm font-medium text-gray-900">
+                            PDF Document
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Ready for upload
+                          </p>
+                        </div>
+                      ) : null}
+                      <p className="text-xs text-gray-500 mt-2 text-center">
+                        This is how your document will appear
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-400">
+                      <FileKYCIcon className="mx-auto mb-2" />
+                      <p className="text-sm">No file selected</p>
+                      <p className="text-xs">Preview will appear here</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Selected File Info - Full width below both columns */}
+            {selectedFile && (
+              <div className="w-full p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <FileKYCIcon />
+                    <div>
+                      <span className="text-sm font-medium text-gray-900 block">
+                        {selectedFile.name}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setSelectedFile(null)
+                      setFilePreview(null)
+                    }}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-3 mt-6">
+          <Button
+            onClick={handleCancel}
+            variant="outline"
+            className="flex-1 py-3 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleUpload}
+            disabled={!selectedFile}
+            className="flex-1 py-3 bg-gradient-to-b from-[#F8971D] to-[#EE3124] text-white rounded-xl hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Upload Document
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Enhanced Document View Modal Component
+const DocumentViewModal = ({ isOpen, onClose, document, filePreview }) => {
+  if (!isOpen || !document) return null
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        {/* Header */}
+        <div className="flex justify-between items-center p-6 border-b border-gray-200">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">
+              {document.name}
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Uploaded on {document.uploadedDate} •{' '}
+              {document.status === 'verified' ? 'Verified' : 'Pending'}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <X size={24} />
+          </button>
+        </div>
+
+        {/* Document Preview */}
+        <div className="p-6 flex items-center justify-center min-h-[400px] bg-gray-50">
+          {filePreview ? (
+            <div className="w-full h-full flex flex-col items-center">
+              {filePreview.type === 'image' ? (
+                <div className="text-center">
+                  <img
+                    src={filePreview.url}
+                    alt={document.name}
+                    className="max-w-full max-h-96 object-contain rounded-lg shadow-sm border"
+                  />
+                  <p className="text-sm text-gray-500 mt-4">
+                    Image preview of {document.name}
+                  </p>
+                </div>
+              ) : filePreview.type === 'pdf' ? (
+                <div className="text-center w-full">
+                  <div className="bg-white border rounded-lg p-8 max-w-md mx-auto">
+                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <FileKYCIcon size={24} />
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      PDF Document
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      This is a preview of the uploaded PDF document.
+                    </p>
+                    <div className="bg-gray-100 rounded p-4 text-left">
+                      <p className="text-sm text-gray-700">
+                        <strong>Document:</strong> {document.name}
+                        <br />
+                        <strong>Type:</strong> PDF
+                        <br />
+                        <strong>Uploaded:</strong> {document.uploadedDate}
+                        <br />
+                        <strong>Status:</strong> {document.status}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <FileKYCIcon size={32} />
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    Document Preview
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    Preview for {document.name}
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="text-center">
+              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FileKYCIcon size={32} />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                No Preview Available
+              </h3>
+              <p className="text-sm text-gray-500 mb-4">
+                Preview not available for this document type
+              </p>
+              <div className="bg-white border rounded-lg p-6 max-w-md mx-auto">
+                <p className="text-sm text-gray-600 text-left">
+                  <strong>Document:</strong> {document.name}
+                  <br />
+                  <strong>Uploaded:</strong> {document.uploadedDate}
+                  <br />
+                  <strong>Status:</strong> {document.status}
+                  <br />
+                  <strong>Type:</strong> KYC Document
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end gap-3 p-6 border-t border-gray-200">
+          <Button
+            onClick={onClose}
+            variant="outline"
+            className="px-6 py-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50"
+          >
+            Close
+          </Button>
+          <Button
+            onClick={() => {
+              // Simulate download
+              const link = document.createElement('a')
+              link.href = filePreview?.url || '#'
+              link.download = `${document.name}.${filePreview?.type === 'image' ? 'jpg' : 'pdf'}`
+              link.click()
+            }}
+            className="px-6 py-2 bg-gradient-to-b from-[#F8971D] to-[#EE3124] text-white rounded-xl hover:opacity-90"
+          >
+            Download
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -629,69 +1165,179 @@ const CustomerDeviceTab = () => (
   </div>
 )
 
-const KYCDocumentsTab = () => (
-  <div className="my-8">
-    <CardContainer title="KYC Documents">
-      <div className="w-full p-6 rounded-2xl border max-h-[336px] scrollbar-hide overflow-y-auto divide-y divide-gray-200">
-        {documents.map((doc) => (
-          <div
-            key={doc.id}
-            className="flex items-center justify-between py-6 px-2 hover:bg-gray-50 transition-colors"
-          >
-            <div className="flex items-center gap-4">
-              {/* Document Icon */}
-              <div className="w-12 h-12 flex items-center justify-center bg-orange-50 rounded-lg">
-                <FileKYCIcon />
+const KYCDocumentsTab = () => {
+  const [documents, setDocuments] = React.useState([
+    {
+      id: 1,
+      name: 'ID Card (Front)',
+      uploadedDate: '2024-01-15',
+      status: 'verified',
+    },
+    {
+      id: 2,
+      name: 'ID Card (Back)',
+      uploadedDate: '2024-01-15',
+      status: 'verified',
+    },
+    {
+      id: 3,
+      name: 'Payslip',
+      uploadedDate: '2024-01-15',
+      status: 'pending',
+    },
+    {
+      id: 4,
+      name: 'Payslip',
+      uploadedDate: '2024-01-15',
+      status: 'pending',
+    },
+    {
+      id: 5,
+      name: 'Payslip',
+      uploadedDate: '2024-01-15',
+      status: 'pending',
+    },
+  ])
+
+  const [uploadModal, setUploadModal] = React.useState({
+    isOpen: false,
+    document: null,
+  })
+  const [viewModal, setViewModal] = React.useState({
+    isOpen: false,
+    document: null,
+  })
+
+  const handleUpload = (file, documentId) => {
+    // Update the document status to verified and show success
+    setDocuments((prevDocs) =>
+      prevDocs.map((doc) =>
+        doc.id === documentId
+          ? {
+              ...doc,
+              status: 'verified',
+              uploadedDate: new Date().toISOString().split('T')[0],
+            }
+          : doc,
+      ),
+    )
+
+    // Show success message or toast
+    console.log(
+      `File ${file.name} uploaded successfully for document ${documentId}`,
+    )
+  }
+
+  const handleDownload = (document) => {
+    // Simulate download process
+    const link = document.createElement('a')
+    link.href = '#' // You would replace this with actual file URL
+    link.download = `${document.name}.pdf`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+
+    // Show download success message
+    console.log(`Downloading ${document.name}`)
+
+    // You can add a toast notification here
+    alert(`Download started for ${document.name}. Check your downloads folder.`)
+  }
+
+  const handleView = (document) => {
+    setViewModal({ isOpen: true, document })
+  }
+
+  return (
+    <div className="my-8">
+      <CardContainer title="KYC Documents">
+        <div className="w-full p-6 rounded-2xl border max-h-[336px] scrollbar-hide overflow-y-auto divide-y divide-gray-200">
+          {documents.map((doc) => (
+            <div
+              key={doc.id}
+              className="flex items-center justify-between py-6 px-2 hover:bg-gray-50 transition-colors"
+            >
+              <div className="flex items-center gap-4">
+                {/* Document Icon */}
+                <div className="w-12 h-12 flex items-center justify-center bg-orange-50 rounded-lg">
+                  <FileKYCIcon />
+                </div>
+
+                {/* Document Info */}
+                <div className="flex flex-col">
+                  <p className="font-medium text-base text-[#252525]">
+                    {doc.name}
+                  </p>
+                  <p className="font-normal text-sm text-[#9CA3AF]">
+                    Uploaded on {doc.uploadedDate}
+                  </p>
+                </div>
               </div>
 
-              {/* Document Info */}
-              <div className="flex flex-col">
-                <p className="font-medium text-base text-[#252525]">
-                  {doc.name}
-                </p>
-                <p className="font-normal text-sm text-[#9CA3AF]">
-                  Uploaded on {doc.uploadedDate}
-                </p>
-              </div>
-            </div>
+              {/* Actions */}
+              <div className="flex items-center gap-3">
+                {/* Status Badge or Upload Button */}
+                {doc.status === 'verified' ? (
+                  <span className="flex flex-row justify-center items-center px-3 py-2 gap-2 w-[69px] h-6 bg-[#1C8546]/8 rounded-full text-sm font-medium text-[#1C8546]">
+                    <label className="w-[45px] h-[17px] flex items-center font-semibold text-xs leading-[140%] capitalize text-[#1C8546]">
+                      Verified
+                    </label>
+                  </span>
+                ) : (
+                  <Button
+                    onClick={() =>
+                      setUploadModal({ isOpen: true, document: doc })
+                    }
+                    className="flex flex-row justify-center items-center px-3 py-2 gap-2 w-[65px] h-6 bg-[#2A53FE]/8 rounded-full text-sm font-medium text-[#2A53FE] border-0 hover:bg-[#2A53FE]/12 transition-colors"
+                  >
+                    <label className="w-[41px] cursor-pointer h-[17px] flex items-center font-semibold text-xs leading-[140%] capitalize text-[#2A53FE]">
+                      Upload
+                    </label>
+                  </Button>
+                )}
 
-            {/* Actions */}
-            <div className="flex items-center gap-3">
-              {/* Status Badge */}
-              {doc.status === 'verified' ? (
-                <span className="flex flex-row justify-center items-center px-3 py-2 gap-2 w-[69px] h-6 bg-[#1C8546]/8 rounded-full text-sm font-medium text-[#1C8546]">
-                  <label className="w-[45px] h-[17px] flex items-center font-semibold text-xs leading-[140%] capitalize text-[#1C8546]">
-                    Verified
-                  </label>
-                </span>
-              ) : (
-                <Button className="flex flex-row justify-center items-center px-3 py-2 gap-2 w-[65px] h-6 bg-[#2A53FE]/8 rounded-full text-sm font-medium text-[#2A53FE] border-0 hover:bg-[#2A53FE]/12 transition-colors">
-                  <label className="w-[41px] cursor-pointer h-[17px] flex items-center font-semibold text-xs leading-[140%] capitalize text-[#2A53FE]">
-                    Upload
-                  </label>
+                {/* View Icon */}
+                <Button
+                  onClick={() => handleView(doc)}
+                  className="flex flex-row justify-center items-center p-3 gap-1.5 w-12 h-12 bg-[#F9FAFB] rounded-full text-gray-600 hover:bg-gray-200 transition-colors"
+                >
+                  <EyeIcon />
                 </Button>
-              )}
 
-              {/* View Icon */}
-              <Button className="flex flex-row justify-center items-center p-3 gap-1.5 w-12 h-12 bg-[#F9FAFB] rounded-full text-gray-600 hover:bg-gray-200 transition-colors">
-                <EyeIcon />
-              </Button>
-
-              {/* Download Icon */}
-              <Button className="flex flex-row justify-center items-center p-3 gap-1.5 w-12 h-12 bg-[#F9FAFB] rounded-full text-gray-600 hover:bg-gray-200 transition-colors">
-                <DownloadFileIcon />
-              </Button>
+                {/* Download Icon */}
+                <Button
+                  onClick={() => handleDownload(doc)}
+                  className="flex flex-row justify-center items-center p-3 gap-1.5 w-12 h-12 bg-[#F9FAFB] rounded-full text-gray-600 hover:bg-gray-200 transition-colors"
+                >
+                  <DownloadFileIcon />
+                </Button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </CardContainer>
-  </div>
-)
+          ))}
+        </div>
+      </CardContainer>
+
+      {/* Upload Modal */}
+      <DocumentUploadModal
+        isOpen={uploadModal.isOpen}
+        onClose={() => setUploadModal({ isOpen: false, document: null })}
+        onUpload={(file) => handleUpload(file, uploadModal.document?.id)}
+        documentName={uploadModal.document?.name}
+      />
+
+      {/* View Modal */}
+      <DocumentViewModal
+        isOpen={viewModal.isOpen}
+        onClose={() => setViewModal({ isOpen: false, document: null })}
+        document={viewModal.document}
+      />
+    </div>
+  )
+}
 
 const CreditReviewTab = () => (
   <div className="my-8">
-    <CardContainer title="KYC Documents">
+    <CardContainer title="Credit Review">
       <div className="space-y-8">
         {/* Salary Information Section */}
         <div>
@@ -779,8 +1425,12 @@ const ActivityTimelineTab = () => (
 
 function RequestViewPage() {
   const [activeTab, setActiveTab] = React.useState(0)
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const [isApproveDialogOpen, setIsApproveDialogOpen] = React.useState(false)
+  const [isDeclineOpen, setIsDeclineOpen] = React.useState(false)
+
   // const form = useForm({})
-console.log('Detail page rendering')
+  console.log('Detail page rendering')
   const { requestId } = Route.useParams()
 
   const tabs = [
@@ -789,6 +1439,24 @@ console.log('Detail page rendering')
     { label: 'Credit Review', component: <CreditReviewTab /> },
     { label: 'Activity Timeline', component: <ActivityTimelineTab /> },
   ]
+
+  const handleSubmit = (message) => {
+    console.log('Sending request with message:', message)
+  }
+
+  const handleDecline = (data) => {
+    console.log('Decline data:', data)
+    // Handle decline logic here
+    setIsDeclineOpen(false)
+  }
+
+  const handleApproveConfirm = () => {
+    console.log('Loan approved for request:', requestId)
+    // Here you would typically make an API call to approve the loan
+
+    setIsApproveDialogOpen(false)
+    // You might want to update the request status here
+  }
 
   return (
     <div className="space-y-8 w-full">
@@ -820,6 +1488,7 @@ console.log('Detail page rendering')
         <div className="flex w-full gap-3">
           <Button
             variant="Outline"
+            onClick={() => setIsApproveDialogOpen(true)}
             className="flex border border-primary flex-row items-center text-primary px-4 py-2 gap-2 w-[127px] h-[39px] rounded-3xl"
           >
             <TickIcon size={24} />
@@ -827,15 +1496,17 @@ console.log('Detail page rendering')
           </Button>
           <Button
             variant="Outline"
+            onClick={() => setIsModalOpen(true)}
             className="flex border  flex-row items-center text-black px-4 py-2 gap-2 w-[127px] h-[39px] rounded-3xl"
           >
             <InfoIcon size={24} />
-            Approve
+            Request Info
           </Button>
         </div>
         <div>
           <Button
             variant="Outline"
+            onClick={() => setIsDeclineOpen(true)}
             className="flex border border-primary flex-row items-center text-primary px-4 py-2 gap-2 w-[127px] h-[39px] rounded-3xl"
           >
             <CancelIcon size={24} />
@@ -848,7 +1519,7 @@ console.log('Detail page rendering')
           {tabs.map((tab, index) => (
             <button
               key={index}
-              className={`relative h-12 flex flex-col items-center justify-center gap-3 flex-1 p-0 transition-colors ${
+              className={`relative cursor-pointer h-12 flex flex-col items-center justify-center gap-3 flex-1 p-0 transition-colors ${
                 activeTab === index ? 'text-[#252525]' : 'text-gray-400'
               }`}
               onClick={() => setActiveTab(index)}
@@ -959,19 +1630,41 @@ console.log('Detail page rendering')
           </Button>
         </div>
       </div>
+      <RequestInfoModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
+      />
+      <ApproveLoanDialog
+        isOpen={isApproveDialogOpen}
+        onClose={() => setIsApproveDialogOpen(false)}
+        onConfirm={handleApproveConfirm}
+        requestData={{
+          customerName: 'John Kamau', // Get from your actual data
+          loanAmount: 'KSH 15,000', // Get from your actual data
+          requestId: requestId,
+          employer: 'Safaricom PLC', // Get from your actual data
+        }}
+      />
+
+      <DeclineLoanDialog
+        isOpen={isDeclineOpen}
+        onClose={() => setIsDeclineOpen(false)}
+        onConfirm={handleDecline}
+        customerName="Jane Doe"
+        loanAmount="KSH 20,000"
+      />
     </div>
   )
 }
 
-export const Route = createFileRoute('/_protected/request/$requestId')(
-  {
-    component: RequestViewPage,
-     validateSearch: (search) => {
+export const Route = createFileRoute('/_protected/request/$requestId')({
+  component: RequestViewPage,
+  validateSearch: (search) => {
     console.log('🔍 Route search params:', search)
     return {}
   },
   beforeLoad: ({ params }) => {
     console.log('🚦 Before load - params:', params)
-  }
   },
-)
+})
