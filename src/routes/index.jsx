@@ -47,40 +47,47 @@ function IndexPage() {
   }
 
   return (
-    <div className="w-full space-x-6 flex justify-between p-6 min-h-screen bg-linear-to-br from-orange-500/8 to-white/8">
-      <div className=" w-full h-[745px] items-center flex justify-center">
+    <div className="w-full min-h-screen flex justify-between gap-6 p-6 bg-linear-to-br from-orange-500/8 to-white/8">
+      {/* Left Section - Logo and Description */}
+      <div className="w-full flex items-center justify-center">
         <div className="flex flex-col items-center space-y-2">
           <LoginLogo size={160} />
-          <div className="w-[306px] space-y-2 h-[69px]">
-            <div className="h-[39px]">
-              <label className="text-[28px] leading-[140%] font-semibold text-[#252525] capitalize text-center font-['Public_Sans']">
+          <div className="max-w-[306px] space-y-2">
+            <div>
+              <label className="block text-[28px] leading-[140%] font-semibold text-[#252525] capitalize text-center font-['Public_Sans']">
                 Back-Office Dashboard
               </label>
             </div>
-            <div className="h-[22px]">
-              <label className="text-base leading-[140%] font-normal text-[#676D75] text-center font-['Public_Sans']">
+            <div>
+              <label className="block text-base leading-[140%] font-normal text-[#676D75] text-center font-['Public_Sans']">
                 Internal access for authorized staff only.
               </label>
             </div>
           </div>
         </div>
       </div>
-      <div className=" w-full h-[745px]">
-        <div className="bg-white flex flex-col justify-between h-full rounded-3xl p-6">
-          <div className="w-full h-[396px] space-y-8 ">
-            <div className="h-20 space-y-2">
-              <div className="h-[50px] ">
-                <label className="text-4xl leading-[140%] font-semibold text-[#252525] capitalize font-['Public_Sans']">
+
+      {/* Right Section - Login Form */}
+      <div className="w-full flex items-stretch">
+        <div className="bg-white flex flex-col justify-between w-full rounded-3xl p-6 min-h-[745px]">
+          {/* Form Content */}
+          <div className="w-full space-y-8">
+            {/* Header */}
+            <div className="space-y-2">
+              <div>
+                <label className="block text-4xl leading-[140%] font-semibold text-[#252525] capitalize font-['Public_Sans']">
                   Login
                 </label>
               </div>
-              <div className="h-[22px]">
-                <label className="text-base leading-[140%] font-medium text-[#676D75] font-['Public_Sans']">
+              <div>
+                <label className="block text-base leading-[140%] font-medium text-[#676D75] font-['Public_Sans']">
                   Login now to access the dashboard
                 </label>
               </div>
             </div>
-            <div className="h-[284px] space-y-6">
+
+            {/* Form */}
+            <div className="space-y-6">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -155,7 +162,9 @@ function IndexPage() {
               </Form>
             </div>
           </div>
-          <div className="w-full">
+
+          {/* Footer */}
+          <div className="w-full mt-8">
             <div className="flex justify-between text-center">
               <p className="text-xs text-gray-400">
                 © Okoa Sasa 2025 - Internal Use Only

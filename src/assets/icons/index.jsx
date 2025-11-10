@@ -80,6 +80,28 @@ import editPenIcon from '@/assets/icons/editPen.svg'
 import trashRedIcon from '@/assets/icons/trashRed.svg'
 import eyeSecIcon from '@/assets/icons/eyeSec.svg'
 import notFound from '@/assets/icons/404.svg'
+import quizIcon from '@/assets/icons/quiz.svg'
+import exclamationIcon from '@/assets/icons/exclamation.svg'
+
+export const ExclamationIcon = ({ size, className = '' }) => (
+  <img
+    src={exclamationIcon}
+    alt="exclamationIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const QuizIcon = ({ size, className = '' }) => (
+  <img
+    src={quizIcon}
+    alt="quizIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
 
 export const NotFound = ({ size, className = '' }) => (
   <img
