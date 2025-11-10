@@ -1,10 +1,6 @@
 import { useState } from 'react'
-import { useNavigate } from '@tanstack/react-router'
-import {
-  Search,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '../CustomButton'
 import {
   EditPenIcon,
@@ -17,7 +13,12 @@ import {
 } from '@/assets/icons'
 
 // Table Row Component
-const TableRow = ({ request, isSelected, onSelectChange, onViewClick }) => {
+const TableRow = ({
+  request,
+  isSelected,
+  onSelectChange,
+  // onViewClick
+}) => {
   const getStatusStyle = (status) => {
     switch (status) {
       case 'Pending':
@@ -66,12 +67,19 @@ const TableRow = ({ request, isSelected, onSelectChange, onViewClick }) => {
           <Button className="flex flex-row justify-center items-center p-2 gap-2.5 w-[31.24px] h-[34px] bg-red-100/15 rounded-[10px] hover:bg-red-50 transition-colors">
             <TrashRedIcon className="w-4 h-4 text-red-500" />
           </Button>
-          <Button 
+          {/* <Button 
             onClick={() => onViewClick(request.requestId)}
             className="flex flex-row justify-center items-center p-2 gap-2.5 w-[31.24px] h-[34px] bg-orange-100/15 rounded-[10px] hover:bg-orange-50 transition-colors cursor-pointer"
           >
             <EyeSecIcon className="w-4 h-4 text-orange-500" />
-          </Button>
+          </Button> */}
+          <Link
+            to="/request/$requestId"
+            params={{ requestId: request.requestId }}
+            className="flex flex-row justify-center items-center p-2 gap-2.5 w-[31.24px] h-[34px] bg-orange-100/15 rounded-[10px] hover:bg-orange-50 transition-colors cursor-pointer"
+          >
+            <EyeSecIcon className="w-4 h-4 text-orange-500" />
+          </Link>
         </div>
       </td>
     </tr>
@@ -164,9 +172,12 @@ const RequestsTable = () => {
   }
 
   const handleViewRequest = (requestId) => {
-    navigate({ 
+    console.log('🔗 Navigating to request:', requestId)
+    console.log('📍 Full path:', `/request/${requestId}`)
+
+    navigate({
       to: '/request/$requestId',
-      params: { requestId }
+      params: { requestId },
     })
   }
 

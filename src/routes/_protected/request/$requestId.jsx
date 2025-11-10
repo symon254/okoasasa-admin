@@ -777,10 +777,10 @@ const ActivityTimelineTab = () => (
   </div>
 )
 
-function RouteComponent() {
+function RequestViewPage() {
   const [activeTab, setActiveTab] = React.useState(0)
   // const form = useForm({})
-
+console.log('Detail page rendering')
   const { requestId } = Route.useParams()
 
   const tabs = [
@@ -963,8 +963,15 @@ function RouteComponent() {
   )
 }
 
-export const Route = createFileRoute('/_protected/_request/request/$requestId')(
+export const Route = createFileRoute('/_protected/request/$requestId')(
   {
-    component: RouteComponent,
+    component: RequestViewPage,
+     validateSearch: (search) => {
+    console.log('🔍 Route search params:', search)
+    return {}
+  },
+  beforeLoad: ({ params }) => {
+    console.log('🚦 Before load - params:', params)
+  }
   },
 )

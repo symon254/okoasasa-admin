@@ -66,7 +66,7 @@ const StatsCard = ({ title, value, percentage, isPositive, icon }) => {
         <div className="flex gap-1">
           {isPositive ? <UpIcon size={14} /> : <DownIcon size={14} />}
           <span
-            className={`w-[30px] h-[17px] font-medium text-xs leading-[140%] ${isPositive ? 'text-[#1C8546]' : 'text-[#CA1D1D]'}`}
+            className={`w-[30px] h-[17px] font-medium text-xs leading-[140%] ${isPositive ? `text-[#1C8546]` : `text-[#CA1D1D]`}`}
           >
             {percentage}%
           </span>
@@ -99,7 +99,7 @@ function RouteComponent() {
     { id: 2, label: 'Region', value: 'Asia' },
     { id: 3, label: 'Device Type', value: 'Mobile Phones, Tablets' },
   ])
-
+console.log('List page rendering')
   const handleRemoveFilter = (filterId) => {
     setActiveFilters(activeFilters.filter((filter) => filter.id !== filterId))
   }
@@ -232,6 +232,5 @@ function RouteComponent() {
   )
 }
 
-export const Route = createFileRoute('/_protected/_request/request')({
-  component: RouteComponent,
+export const Route = createFileRoute('/_protected/request/')({  component: RouteComponent,
 })
