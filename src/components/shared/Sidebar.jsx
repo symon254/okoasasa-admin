@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useLocation } from '@tanstack/react-router'
+import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import {
   AnalyticIcon,
   AnalyticPrimIcon,
@@ -16,9 +16,12 @@ import {
   UsersIcon,
   UsersPrimIcon,
 } from '@/assets/icons'
+import { useStateContext } from '@/context/state-context'
 
 const Sidebar = () => {
   const location = useLocation()
+  const navigate = useNavigate()
+  const { logout } = useStateContext()
   const menuItems = [
     {
       firstIcon: DashboardPrimIcon,
@@ -63,14 +66,21 @@ const Sidebar = () => {
       color: 'text-gray-600',
     },
   ]
-  
+
+  const handleLogout = () => {
+    // Clear auth state and localStorage
+    logout()
+    // Redirect to login page
+    navigate({ to: '/' })
+  }
+
   return (
     <div className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col">
       {/* Logo */}
       <div className="p-6 flex justify-center border-b h-20 border-gray-100 flex-shrink-0">
         <LogoIcon />
       </div>
-      
+
       {/* Menu Items - scrollable if many items */}
       <nav className="flex-1 mt-2 p-4 overflow-y-auto">
         <ul className="space-y-2">
@@ -97,10 +107,13 @@ const Sidebar = () => {
           })}
         </ul>
       </nav>
-      
+
       {/* Logout - always at bottom */}
       <div className="p-4 border-t border-gray-100 shrink-0">
-        <button className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors">
+        <button
+          onClick={handleLogout}
+          className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+        >
           <LogoutSideIcon className="w-5 h-5" />
           <span className="text-sm font-medium">Logout</span>
         </button>
