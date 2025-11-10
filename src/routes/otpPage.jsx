@@ -21,6 +21,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from '@/components/ui/input-otp'
+import { useStateContext } from '@/context/state-context'
 
 // OTP validation schema
 const otpSchema = z.object({
@@ -29,6 +30,7 @@ const otpSchema = z.object({
 
 function OtpPage() {
   const navigate = useNavigate()
+  const { login } = useStateContext()
   const [countdown, setCountdown] = React.useState(60)
   const [isResending, setIsResending] = React.useState(false)
 
@@ -69,7 +71,19 @@ function OtpPage() {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      // If successful, redirect to dashboard
+      // If successful, log the user in
+      // Replace this with actual user data from your API response
+      const userData = {
+        id: '12345',
+        email: 'usmanj***@gmail.com',
+        name: 'User Name',
+        // Add any other user fields you need
+      }
+
+      // Call login to update auth state
+      login(userData)
+
+      // Then redirect to dashboard
       navigate({ to: '/dashboard' })
     } catch (error) {
       console.error('OTP verification failed:', error)
