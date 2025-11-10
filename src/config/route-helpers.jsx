@@ -3,7 +3,6 @@ import { Outlet, useNavigate } from '@tanstack/react-router'
 import { ThemedSuspense, LoadingSpinner } from '@/components/shared/Loading'
 import { useStateContext } from '@/context/state-context'
 import Layout from '@/container/Layout'
-import { AuthDialog } from '@/components/shared'
 
 /**
  * Lazy load helper with suspense fallback
@@ -16,52 +15,32 @@ export const lazyLoad = (fn) => (props) => (
 )
 
 /**
- * Protected Route Wrapper - Shows auth dialog if not authenticated
+ * Protected Route Wrapper - Redirects to login if not authenticated
  */
 export function ProtectedRoute({ children }) {
   const navigate = useNavigate()
   const { isAuthenticated } = useStateContext()
-  const [showAuthDialog, setShowAuthDialog] = React.useState(false)
   const [isChecking, setIsChecking] = React.useState(true)
 
   React.useEffect(() => {
     setIsChecking(true)
     if (!isAuthenticated) {
-      setShowAuthDialog(true)
-    }
-    setIsChecking(false)
-  }, [isAuthenticated])
-
-  const handleAuthDialogClose = (open) => {
-    setShowAuthDialog(open)
-    if (!open && !isAuthenticated) {
       navigate({ to: '/' })
     }
-  }
+    setIsChecking(false)
+  }, [isAuthenticated, navigate])
 
   // Show loading spinner while checking auth status
   if (isChecking) {
     return <LoadingSpinner />
   }
 
-  // If not authenticated, show auth dialog with backdrop over home page
+  // If not authenticated, return null (navigation will happen in useEffect)
   if (!isAuthenticated) {
-    return (
-      <>
-        <AuthDialogWrapper
-          open={showAuthDialog}
-          onOpenChange={handleAuthDialogClose}
-        />
-      </>
-    )
+    return null
   }
 
   return children
-}
-
-// Lazy load AuthDialog to avoid circular dependencies
-function AuthDialogWrapper({ open, onOpenChange }) {
-  return <AuthDialog open={open} onOpenChange={onOpenChange} />
 }
 
 /**
