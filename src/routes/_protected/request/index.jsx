@@ -1,3 +1,4 @@
+import React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import {
   ArrowRightIcon,
@@ -11,7 +12,6 @@ import {
 } from '@/assets/icons'
 import { Button } from '@/components/ui/button'
 import { X } from 'lucide-react'
-import React from 'react'
 import RequestsTable from '@/components/shared/Requests/RequestTable'
 import DateRangeFilter from '@/components/shared/Inputs/DateRange'
 
@@ -78,11 +78,30 @@ const StatsCard = ({ title, value, percentage, isPositive, icon }) => {
   )
 }
 
-const FilterChip = ({ label, value, onRemove }) => {
+// Enhanced FilterChip component with edit functionality
+const FilterChip = ({ label, value, onRemove, onEdit }) => {
   return (
     <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-2xl">
       <span className="text-sm text-gray-600 font-normal">{label}</span>
       <span className="text-sm text-black font-medium">{value}</span>
+      <button
+        onClick={onEdit}
+        className="flex cursor-pointer items-center justify-center w-4 h-4 text-orange-500 hover:text-orange-600 transition-colors"
+        aria-label={`Edit ${label} filter`}
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11.0833 1.75C11.275 1.55833 11.525 1.45833 11.8333 1.45833C12.1417 1.45833 12.3917 1.55833 12.5833 1.75C12.775 1.94167 12.875 2.19167 12.875 2.5C12.875 2.80833 12.775 3.05833 12.5833 3.25L5.08333 10.75L2.125 11.375L2.75 8.41667L11.0833 1.75Z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
       <button
         onClick={onRemove}
         className="flex cursor-pointer items-center justify-center w-4 h-4 text-gray-400 hover:text-gray-600 transition-colors"
@@ -95,181 +114,89 @@ const FilterChip = ({ label, value, onRemove }) => {
 }
 
 function RouteComponent() {
-  const [activeFilters, setActiveFilters] = React.useState([
-    { id: 1, label: 'Employer', value: 'Ola International, Nestle' },
-    { id: 2, label: 'Region', value: 'Asia' },
-    { id: 3, label: 'Device Type', value: 'Mobile Phones, Tablets' },
-  ])
-  const [minAmount, setMinAmount] = React.useState('')
-  const [maxAmount, setMaxAmount] = React.useState('')
-  const [selectedStatus, setSelectedStatus] = React.useState('')
-  const [dateRange, setDateRange] = React.useState({
-    startDate: '',
-    endDate: '',
-  })
-  const [singleDate, setSingleDate] = React.useState('')
+  // const [minAmount, setMinAmount] = useState('')
+  // const [maxAmount, setMaxAmount] = useState('')
+  // const [selectedStatus, setSelectedStatus] = useState('')
+  // const [dateRange, setDateRange] = useState({
+  //   startDate: '',
+  //   endDate: '',
+  // })
+  // const [singleDate, setSingleDate] = useState('')
 
-  const formatDate = (dateString) => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-  }
+  // const formatDate = (dateString) => {
+  //   if (!dateString) return ''
+  //   const date = new Date(dateString)
+  //   return date.toLocaleDateString('en-GB', {
+  //     day: '2-digit',
+  //     month: 'short',
+  //     year: 'numeric',
+  //   })
+  // }
 
-  console.log('List page rendering')
+  // Update active filters whenever filter values change
+  // React.useEffect(() => {
+  //   const newActiveFilters = []
 
-  const handleRemoveFilter = (filterId) => {
-    const filterToRemove = activeFilters.find(
-      (filter) => filter.id === filterId,
-    )
+  //   if (minAmount) {
+  //     newActiveFilters.push({
+  //       id: 'minAmount',
+  //       label: 'Min Amount',
+  //       value: `${minAmount} KES`,
+  //     })
+  //   }
 
-    if (filterToRemove) {
-      // Clear the corresponding state based on filter label
-      switch (filterToRemove.label) {
-        case 'Status':
-          setSelectedStatus('')
-          break
-        case 'Date Range':
-          setDateRange({ startDate: '', endDate: '' })
-          break
-        case 'Specific Date':
-          setSingleDate('')
-          break
-        case 'Min Amount':
-          setMinAmount('')
-          break
-        case 'Max Amount':
-          setMaxAmount('')
-          break
-        default:
-          // Handle other custom filters if needed
-          break
-      }
-    }
+  //   if (maxAmount) {
+  //     newActiveFilters.push({
+  //       id: 'maxAmount',
+  //       label: 'Max Amount',
+  //       value: `${maxAmount} KES`,
+  //     })
+  //   }
 
-    // Remove the filter chip
-    setActiveFilters(activeFilters.filter((filter) => filter.id !== filterId))
-  }
+  //   if (selectedStatus) {
+  //     newActiveFilters.push({
+  //       id: 'status',
+  //       label: 'Status',
+  //       value: selectedStatus,
+  //     })
+  //   }
 
-  const handleStatusChange = (status) => {
-    setSelectedStatus(status)
+  //   if (dateRange.startDate && dateRange.endDate) {
+  //     newActiveFilters.push({
+  //       id: 'dateRange',
+  //       label: 'Date Range',
+  //       value: `${formatDate(dateRange.startDate)} - ${formatDate(dateRange.endDate)}`,
+  //     })
+  //   }
 
-    // Remove existing status filter if any
-    const filtered = activeFilters.filter((filter) => filter.label !== 'Status')
+  //   if (singleDate) {
+  //     newActiveFilters.push({
+  //       id: 'singleDate',
+  //       label: 'Specific Date',
+  //       value: formatDate(singleDate),
+  //     })
+  //   }
+  // }, [minAmount, maxAmount, selectedStatus, dateRange, singleDate])
 
-    if (status) {
-      // Add new status filter
-      setActiveFilters([
-        ...filtered,
-        {
-          id: Date.now(),
-          label: 'Status',
-          value: status,
-        },
-      ])
-    } else {
-      setActiveFilters(filtered)
-    }
-  }
+  // const handleStatusChange = (status) => {
+  //   setSelectedStatus(status)
+  // }
 
-  const handleDateRangeApply = (range) => {
-    setDateRange(range)
+  // const handleDateRangeApply = (range) => {
+  //   setDateRange(range)
+  // }
 
-    // Remove existing date range filter if any
-    const filtered = activeFilters.filter(
-      (filter) => filter.label !== 'Date Range',
-    )
+  // const handleDateRangeClear = () => {
+  //   setDateRange({ startDate: '', endDate: '' })
+  // }
 
-    if (range.startDate && range.endDate) {
-      setActiveFilters([
-        ...filtered,
-        {
-          id: Date.now(),
-          label: 'Date Range',
-          value: `${formatDate(range.startDate)} - ${formatDate(range.endDate)}`,
-        },
-      ])
-    }
-  }
+  // const handleSingleDateApply = (range) => {
+  //   setSingleDate(range.startDate)
+  // }
 
-  const handleDateRangeClear = () => {
-    setDateRange({ startDate: '', endDate: '' })
-    setActiveFilters(
-      activeFilters.filter((filter) => filter.label !== 'Date Range'),
-    )
-  }
-
-  const handleSingleDateApply = (range) => {
-    setSingleDate(range.startDate)
-
-    // Remove existing single date filter if any
-    const filtered = activeFilters.filter(
-      (filter) => filter.label !== 'Specific Date',
-    )
-
-    if (range.startDate) {
-      setActiveFilters([
-        ...filtered,
-        {
-          id: Date.now(),
-          label: 'Specific Date',
-          value: formatDate(range.startDate),
-        },
-      ])
-    }
-  }
-
-  const handleSingleDateClear = () => {
-    setSingleDate('')
-    setActiveFilters(
-      activeFilters.filter((filter) => filter.label !== 'Specific Date'),
-    )
-  }
-
-  const handleApplyLoanAmountFilter = () => {
-    // Remove existing loan amount filters if any
-    const filtered = activeFilters.filter(
-      (filter) =>
-        filter.label !== 'Min Amount' && filter.label !== 'Max Amount',
-    )
-
-    const newFilters = [...filtered]
-
-    // Add min amount filter if set
-    if (minAmount) {
-      newFilters.push({
-        id: Date.now() + 1,
-        label: 'Min Amount',
-        value: `${minAmount} KES`,
-      })
-    }
-
-    // Add max amount filter if set
-    if (maxAmount) {
-      newFilters.push({
-        id: Date.now() + 2,
-        label: 'Max Amount',
-        value: `${maxAmount} KES`,
-      })
-    }
-
-    setActiveFilters(newFilters)
-  }
-
-  // Function to clear loan amount filters
-  const handleClearLoanAmountFilter = () => {
-    setMinAmount('')
-    setMaxAmount('')
-    setActiveFilters(
-      activeFilters.filter(
-        (filter) =>
-          filter.label !== 'Min Amount' && filter.label !== 'Max Amount',
-      ),
-    )
-  }
+  // const handleSingleDateClear = () => {
+  //   setSingleDate('')
+  // }
 
   return (
     <div className="w-full space-y-8">
@@ -295,7 +222,8 @@ function RouteComponent() {
           </label>
         </div>
       </div>
-      <div className="space-y-4">
+
+      {/* <div className="space-y-4">
         <div className="">
           <label className="w-[61px] h-7 font-semibold text-xl leading-[140%] capitalize text-black">
             Filters
@@ -309,16 +237,16 @@ function RouteComponent() {
           </div>
           <div>
             <div className="flex w-full items-center gap-4">
-              {/* Date Range Filter */}
+             
               <DateRangeFilter
-                onDateRangeChange={setDateRange}
+                onDateRangeChange={handleDateRangeApply}
                 onApply={handleDateRangeApply}
                 onClear={handleDateRangeClear}
                 mode="range"
                 placeholder="Select date range"
               />
 
-              {/* Single Date Filter */}
+             
               <DateRangeFilter
                 onDateRangeChange={handleSingleDateApply}
                 onClear={handleSingleDateClear}
@@ -385,15 +313,12 @@ function RouteComponent() {
                 className="box-border flex flex-row justify-center items-center px-4 py-3 gap-2.5 w-[360px] h-11 bg-white border border-[#E8ECF4] rounded-xl flex-none flex-grow"
               />
             </div>
-            <div className="flex  items-center gap-2">
+            <div className="flex items-center gap-2">
               <Button
-                onClick={handleApplyLoanAmountFilter}
-                className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-              >
-                Apply Amount Filter
-              </Button>
-              <Button
-                onClick={handleClearLoanAmountFilter}
+                onClick={() => {
+                  setMinAmount('')
+                  setMaxAmount('')
+                }}
                 variant="outline"
                 className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
@@ -402,26 +327,14 @@ function RouteComponent() {
             </div>
           </div>
         </div>
-        <div>
-          <div className="flex flex-wrap items-center gap-3">
-            {activeFilters.map((filter) => (
-              <FilterChip
-                key={filter.id}
-                label={filter.label}
-                value={filter.value}
-                onRemove={() => handleRemoveFilter(filter.id)}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      </div> */}
       <div>
         <RequestsTable
-          minAmount={minAmount}
-          maxAmount={maxAmount}
-          statusFilter={selectedStatus}
-          dateRange={dateRange}
-          singleDate={singleDate}
+          // minAmount={minAmount}
+          // maxAmount={maxAmount}
+          // statusFilter={selectedStatus}
+          // dateRange={dateRange}
+          // singleDate={singleDate}
         />
       </div>
     </div>
