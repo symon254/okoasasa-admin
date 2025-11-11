@@ -82,6 +82,50 @@ import eyeSecIcon from '@/assets/icons/eyeSec.svg'
 import notFound from '@/assets/icons/404.svg'
 import quizIcon from '@/assets/icons/quiz.svg'
 import exclamationIcon from '@/assets/icons/exclamation.svg'
+import addFillIcon from '@/assets/icons/addFill.svg'
+import pauseIcon from '@/assets/icons/pause.svg'
+import pauseWhiteIcon from '@/assets/icons/pauseWhite.svg'
+import userDelIcon from '@/assets/icons/userDel.svg'
+
+export const UserDelIcon = ({ size, className = '' }) => (
+  <img
+    src={userDelIcon}
+    alt="userDelIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const PauseWhiteIcon = ({ size, className = '' }) => (
+  <img
+    src={pauseWhiteIcon}
+    alt="pauseWhiteIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const PauseIcon = ({ size, className = '' }) => (
+  <img
+    src={pauseIcon}
+    alt="pauseIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
+
+export const AddFillIcon = ({ size = 24, className = '' }) => (
+  <img
+    src={addFillIcon}
+    alt="addFillIcon"
+    width={size}
+    height={size}
+    className={className}
+  />
+)
 
 export const ExclamationIcon = ({ size, className = '' }) => (
   <img
@@ -160,7 +204,6 @@ export const RefreshIcon = ({ size = 24, className = '' }) => (
     className={className}
   />
 )
-
 
 export const GridIcon = ({ size = 24, className = '' }) => (
   <img

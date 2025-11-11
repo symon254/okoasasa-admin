@@ -215,13 +215,13 @@ function RouteComponent() {
           ))}
         </div>
       </div>
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <div className="py-[9px] ">
           <label className=" font-semibold text-xl leading-[140%] capitalize text-black flex-none grow">
             Request
           </label>
         </div>
-      </div>
+      </div> */}
 
       {/* <div className="space-y-4">
         <div className="">
